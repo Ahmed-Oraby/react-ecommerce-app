@@ -1,0 +1,24 @@
+/* Product component styles */
+.product {
+	max-width: fit-content;
+	padding: 1rem;
+	/* font-size: 1.8rem; */
+	margin: 0 6rem 10rem 0;
+	text-align: center;
+}
+
+.product__image {
+	cursor: pointer;
+	width: 350px;
+	height: 350px;
+	object-fit: contain;
+}
+
+.product__title {
+	font-size: 1.8rem;
+	font-weight: 300;
+}
+
+.product__price {
+	font-weight: 500;
+}

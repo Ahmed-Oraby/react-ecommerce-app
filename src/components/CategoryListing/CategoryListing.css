@@ -1,0 +1,15 @@
+/* Category component styles */
+.category {
+	margin: 0 10rem;
+}
+.category__title {
+	margin: 10rem 4rem;
+	font-size: 4.2rem;
+	font-weight: 400;
+	text-transform: capitalize;
+}
+
+.category__listing {
+	display: flex;
+	flex-wrap: wrap;
+}
