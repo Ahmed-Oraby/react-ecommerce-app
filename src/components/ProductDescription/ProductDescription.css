@@ -1,0 +1,83 @@
+/* Product Description component styles */
+.product-desc {
+	margin: 10rem;
+	display: flex;
+	align-items: flex-start;
+}
+
+.product-desc .gallery {
+	display: flex;
+	flex-direction: column;
+}
+
+.product-desc .gallery-image {
+	width: 80px;
+	height: 80px;
+	object-fit: contain;
+	cursor: pointer;
+	margin-bottom: 3rem;
+}
+
+.product-desc .main-image {
+	width: 600px;
+	height: 500px;
+	object-fit: contain;
+	margin-left: 3rem;
+}
+
+.product-desc__details {
+	margin-left: 8rem;
+	color: #1d1f22;
+}
+
+.product-desc__details .brand {
+	font-size: 3rem;
+	font-weight: 600;
+}
+
+.product-desc__details .name {
+	font-size: 3rem;
+	font-weight: 400;
+}
+
+.product-desc__details .price {
+	margin-top: 4rem;
+}
+
+.product-desc__details .price h3 {
+	font-family: "Roboto", sans-serif;
+	font-size: 1.8rem;
+	font-weight: 700;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.product-desc__details .price p {
+	font-size: 2.4rem;
+	font-weight: 700;
+	margin-top: 1rem;
+}
+
+.product-desc__details .cart-btn {
+	outline: none;
+	border: none;
+	background-color: #5ece7b;
+	color: white;
+	padding: 1.5rem 10rem;
+	font-size: 1.6rem;
+	font-weight: 600;
+	line-height: 1.2;
+	text-transform: uppercase;
+	cursor: pointer;
+	margin-top: 2rem;
+}
+
+.product-desc__details .cart-btn:hover {
+	background-color: #4eac67;
+}
+
+.product-desc__details .description {
+	font-family: "Roboto", sans-serif;
+	font-size: 1.6rem;
+	margin-top: 3rem;
+}

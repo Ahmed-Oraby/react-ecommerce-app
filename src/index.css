@@ -28,3 +28,23 @@ body {
 	max-width: 1440px;
 	margin: 0 auto;
 }
+
+.out-stock {
+	position: relative;
+}
+
+.out-stock img {
+	opacity: 0.5;
+}
+
+.out-stock::before {
+	content: "out of stock";
+	color: #8d8f9a;
+	font-size: 2.4rem;
+	text-decoration: none;
+	text-transform: uppercase;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

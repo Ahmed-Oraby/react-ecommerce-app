@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import CategoryListing from "./components/CategoryListing/CategoryListing";
-import ProductDescription from "./components/ProductDescription";
+import ProductDescription from "./components/ProductDescription/ProductDescription";
 
 class App extends Component {
 	state = {
@@ -10,7 +10,7 @@ class App extends Component {
 		currentCategory: "all",
 	};
 
-	requestGraphQlData() {
+	requestServerData() {
 		fetch(
 			`http://localhost:4000/graphql?query={
 				categories{
@@ -19,6 +19,7 @@ class App extends Component {
 						id,
 						name,
 						gallery,
+						inStock,
 						prices{
 							amount,
 							currency{
@@ -42,7 +43,7 @@ class App extends Component {
 	};
 
 	componentDidMount() {
-		this.requestGraphQlData();
+		this.requestServerData();
 		console.log("mounted");
 	}
 

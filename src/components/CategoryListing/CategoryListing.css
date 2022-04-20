@@ -10,6 +10,6 @@
 }
 
 .category__listing {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 }

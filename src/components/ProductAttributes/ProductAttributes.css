@@ -1,0 +1,51 @@
+.product-attr {
+	margin-top: 4rem;
+}
+
+.product-attr__name {
+	font-family: "Roboto", sans-serif;
+	font-weight: 700;
+	font-size: 1.8rem;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.product-attr__attributes {
+	display: flex;
+	margin-top: 1rem;
+}
+
+.option-text {
+	width: 65px;
+	height: 45px;
+	cursor: pointer;
+	margin-right: 1.2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	color: #292929;
+	border: 1px solid #1d1f22;
+	font-size: 1.6rem;
+}
+
+.option-swatch {
+	width: 65px;
+	height: 45px;
+	cursor: pointer;
+	margin-right: 1.2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.option-text.active {
+	color: white;
+	background-color: #1d1f22;
+}
+
+.option-swatch.active::before {
+	content: "✔";
+	color: white;
+	font-size: 2.4rem;
+}

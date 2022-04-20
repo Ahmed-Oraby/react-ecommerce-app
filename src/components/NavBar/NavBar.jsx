@@ -3,7 +3,7 @@ import logo from "../../icons/logo.svg";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 
-export class NavBar extends Component {
+class NavBar extends Component {
 	render() {
 		const { categories, currentCategory, handleCategory } = this.props;
 

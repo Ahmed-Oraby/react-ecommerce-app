@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ProductItem from "../ProductItem/ProductItem";
 import "./CategoryListing.css";
 
-export class CategoryListing extends Component {
+class CategoryListing extends Component {
 	render() {
 		const { categoryName, products } = this.props;
 		console.log(products);
