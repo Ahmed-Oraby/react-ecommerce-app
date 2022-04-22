@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import logo from "../../icons/logo.svg";
 import { Link } from "react-router-dom";
+import logo from "../../icons/logo.svg";
+import cart from "../../icons/cart.svg";
+// import currency from "../../icons/currency.svg";
 import "./NavBar.css";
 
 class NavBar extends Component {
@@ -40,9 +42,15 @@ class NavBar extends Component {
 						</li>
 					))}
 				</ul>
-				<div className="navbar__logo">
+				<div>
 					<Link to="/">
 						<img src={logo} alt="" />
+					</Link>
+				</div>
+				<div>
+					{/* <img src={currency} alt="" /> */}
+					<Link to="/cart">
+						<img src={cart} alt="" />
 					</Link>
 				</div>
 			</nav>

@@ -48,3 +48,19 @@ body {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+
+.item-brand {
+	font-size: 3rem;
+	font-weight: 600;
+}
+
+.item-name {
+	font-size: 3rem;
+	font-weight: 400;
+}
+
+.item-price {
+	font-size: 2.4rem;
+	font-weight: 700;
+	margin-top: 1rem;
+}

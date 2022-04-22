@@ -1,6 +1,7 @@
 /* NavBar component styles */
 .navbar {
 	/* padding: 2rem; */
+	margin-top: 2rem;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -24,9 +25,4 @@
 .navbar__item.active {
 	color: #5ece7b;
 	border-bottom: 2px solid #5ece7b;
-}
-
-.navbar__logo {
-	margin-top: 2rem;
-	cursor: pointer;
 }

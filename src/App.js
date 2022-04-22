@@ -3,11 +3,13 @@ import { Switch, Route } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import CategoryListing from "./components/CategoryListing/CategoryListing";
 import ProductDescription from "./components/ProductDescription/ProductDescription";
+import Cart from "./components/Cart/Cart";
 
 class App extends Component {
 	state = {
 		serverData: null,
 		currentCategory: "all",
+		cartItems: [], //an array for holding all the items in cart
 	};
 
 	requestServerData() {
@@ -42,16 +44,37 @@ class App extends Component {
 		this.setState({ currentCategory: categoryName });
 	};
 
+	handleCartAdd = (productItem, index = 0) => {
+		let prevCartItems = [...this.state.cartItems];
+		let cartItems = prevCartItems.filter((item) => productItem.product.id !== item.product.id);
+		let productInCart = prevCartItems.filter(
+			(item) => productItem.product.id === item.product.id
+		);
+
+		if (productInCart.length === 0) productItem.count = 1;
+		else productItem.count = productInCart[0].count + 1;
+
+		cartItems.splice(index, 0, productItem);
+		this.setState({ cartItems });
+	};
+
+	handleCartRemove = (productItem, index) => {
+		let prevCartItems = [...this.state.cartItems];
+		let cartItems = prevCartItems.filter((item) => productItem.product.id !== item.product.id);
+
+		if (productItem.count !== 1) {
+			productItem.count--;
+			cartItems.splice(index, 0, productItem);
+		}
+		this.setState({ cartItems });
+	};
+
 	componentDidMount() {
 		this.requestServerData();
-		console.log("mounted");
 	}
 
 	render() {
-		const { serverData, currentCategory } = this.state;
-
-		console.log("rendered");
-		console.log(this.state);
+		const { serverData, currentCategory, cartItems } = this.state;
 
 		if (serverData === null) return null;
 
@@ -73,8 +96,15 @@ class App extends Component {
 					handleCategory={this.handleCategory}
 				/>
 				<Switch>
-					<Route path="/:productId">
-						<ProductDescription />
+					<Route path="/product/:productId">
+						<ProductDescription handleCartAdd={this.handleCartAdd} />
+					</Route>
+					<Route path="/cart">
+						<Cart
+							cartItems={cartItems}
+							handleCartAdd={this.handleCartAdd}
+							handleCartRemove={this.handleCartRemove}
+						/>
 					</Route>
 					<Route path="/">{listingPage}</Route>
 				</Switch>

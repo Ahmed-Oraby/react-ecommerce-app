@@ -67,8 +67,9 @@ class ProductDescription extends Component {
 
 	render() {
 		const { serverData, currentImage, selectedAttributes } = this.state;
+		const { handleCartAdd } = this.props;
 		if (serverData === null) return null;
-		console.log("product id:", this.props.match.params.productId);
+		console.log("instock:", serverData.product.inStock);
 		console.log("product desc", this.state);
 		return (
 			<div className="container product-desc">
@@ -89,8 +90,8 @@ class ProductDescription extends Component {
 				</div>
 
 				<div className="product-desc__details">
-					<h2 className="brand">{serverData.product.brand}</h2>
-					<h2 className="name">{serverData.product.name}</h2>
+					<h2 className="item-brand">{serverData.product.brand}</h2>
+					<h2 className="item-name">{serverData.product.name}</h2>
 					<ProductAttributes
 						attributes={serverData.product.attributes}
 						handleAttributes={this.handleAttributes}
@@ -98,12 +99,20 @@ class ProductDescription extends Component {
 					/>
 					<div className="price">
 						<h3>Price</h3>
-						<p>
+						<p className="item-price">
 							{serverData.product.prices[0].currency.symbol +
 								serverData.product.prices[0].amount}
 						</p>
 					</div>
-					<button className="cart-btn">Add To Cart</button>
+					<button
+						disabled={!serverData.product.inStock}
+						onClick={() =>
+							handleCartAdd({ product: serverData.product, selectedAttributes })
+						}
+						className={serverData.product.inStock ? "cart-btn" : "cart-btn disabled"}
+					>
+						Add To Cart
+					</button>
 					<div
 						className="description"
 						dangerouslySetInnerHTML={{ __html: serverData.product.description }}

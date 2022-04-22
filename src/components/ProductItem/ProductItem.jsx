@@ -8,7 +8,7 @@ class ProductItem extends Component {
 		console.log(productDetails);
 		return (
 			<div className="product">
-				<Link to={`/${productDetails.id}`}>
+				<Link to={`/product/${productDetails.id}`}>
 					<div className={productDetails.inStock ? "" : "out-stock"}>
 						<img
 							className="product__image"
