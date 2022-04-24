@@ -29,9 +29,14 @@
 	font-size: 1.6rem;
 }
 
+.option-text.active {
+	color: white;
+	background-color: #1d1f22;
+}
+
 .option-swatch {
-	width: 65px;
-	height: 45px;
+	width: 32px;
+	height: 32px;
 	cursor: pointer;
 	margin-right: 1.2rem;
 	display: flex;
@@ -39,13 +44,7 @@
 	align-items: center;
 }
 
-.option-text.active {
-	color: white;
-	background-color: #1d1f22;
-}
-
-.option-swatch.active::before {
-	content: "✔";
-	color: white;
-	font-size: 2.4rem;
+.option-swatch.active {
+	outline: 2px solid #5ece7b;
+	border: 2px solid #fff;
 }

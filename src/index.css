@@ -64,3 +64,29 @@ body {
 	font-weight: 700;
 	margin-top: 1rem;
 }
+
+.btn {
+	outline: none;
+	border: none;
+	background-color: #5ece7b;
+	color: white;
+	padding: 1.6rem 10rem;
+	font-size: 1.6rem;
+	font-weight: 600;
+	line-height: 1.2;
+	text-transform: uppercase;
+	cursor: pointer;
+	margin-top: 2rem;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+.btn:hover {
+	background-color: #4eac67;
+}
+
+.btn.disabled,
+.btn.disabled:hover {
+	background-color: #747474;
+	cursor: default;
+}

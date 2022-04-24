@@ -10,6 +10,7 @@ class App extends Component {
 		serverData: null,
 		currentCategory: "all",
 		cartItems: [], //an array for holding all the items in cart
+		selectedAttributes: [], //an array for all the selected attributes for all products
 	};
 
 	requestServerData() {
@@ -44,6 +45,23 @@ class App extends Component {
 		this.setState({ currentCategory: categoryName });
 	};
 
+	handleAttributes = (attributes) => {
+		let prevAttributes = [...this.state.selectedAttributes];
+
+		let selectedAttributes = prevAttributes.filter(
+			(item) => item.productId !== attributes.productId
+		);
+
+		let productAttributes = prevAttributes
+			.filter((item) => item.productId === attributes.productId)
+			.filter((item) => item.attributeName !== attributes.attributeName);
+
+		if (productAttributes.length !== 0) selectedAttributes.push(...productAttributes);
+
+		selectedAttributes.push(attributes);
+		this.setState({ selectedAttributes });
+	};
+
 	handleCartAdd = (productItem, index = 0) => {
 		let prevCartItems = [...this.state.cartItems];
 		let cartItems = prevCartItems.filter((item) => productItem.product.id !== item.product.id);
@@ -58,14 +76,30 @@ class App extends Component {
 		this.setState({ cartItems });
 	};
 
-	handleCartRemove = (productItem, index) => {
+	handleCartRemove = (productItem, index = 0) => {
 		let prevCartItems = [...this.state.cartItems];
 		let cartItems = prevCartItems.filter((item) => productItem.product.id !== item.product.id);
 
-		if (productItem.count !== 1) {
+		if (productItem.count > 1) {
 			productItem.count--;
 			cartItems.splice(index, 0, productItem);
 		}
+		this.setState({ cartItems });
+	};
+
+	handleCartGallery = (itemIndex, direction = true) => {
+		let cartItems = [...this.state.cartItems];
+		let imageGallery = cartItems.map((item) => item.product.gallery);
+
+		if (direction) {
+			let img = imageGallery[itemIndex].shift();
+			imageGallery[itemIndex].push(img);
+		} else {
+			let img = imageGallery[itemIndex].pop();
+			imageGallery[itemIndex].unshift(img);
+		}
+
+		cartItems[itemIndex].product.gallery = imageGallery[itemIndex];
 		this.setState({ cartItems });
 	};
 
@@ -74,7 +108,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { serverData, currentCategory, cartItems } = this.state;
+		const { serverData, currentCategory, cartItems, selectedAttributes } = this.state;
 
 		if (serverData === null) return null;
 
@@ -97,13 +131,20 @@ class App extends Component {
 				/>
 				<Switch>
 					<Route path="/product/:productId">
-						<ProductDescription handleCartAdd={this.handleCartAdd} />
+						<ProductDescription
+							selectedAttributes={selectedAttributes}
+							handleAttributes={this.handleAttributes}
+							handleCartAdd={this.handleCartAdd}
+						/>
 					</Route>
 					<Route path="/cart">
 						<Cart
 							cartItems={cartItems}
+							selectedAttributes={selectedAttributes}
 							handleCartAdd={this.handleCartAdd}
 							handleCartRemove={this.handleCartRemove}
+							handleCartGallery={this.handleCartGallery}
+							handleAttributes={this.handleAttributes}
 						/>
 					</Route>
 					<Route path="/">{listingPage}</Route>

@@ -2,16 +2,21 @@ import React, { Component } from "react";
 import "./ProductAttributes.css";
 
 class ProductAttributes extends Component {
-	getSelectedAttribute(selectedAttributes, name, id) {
+	getSelectedAttribute(selectedAttributes, productId, attributeName, itemId) {
 		for (let item of selectedAttributes) {
-			if (item.attributeName === name && item.itemId === id) return "active";
+			if (
+				item.productId === productId &&
+				item.attributeName === attributeName &&
+				item.itemId === itemId
+			)
+				return "active";
 		}
 	}
 
 	render() {
-		const { attributes, handleAttributes, selectedAttributes } = this.props;
-		console.log("attr:", attributes);
-		return attributes.map((attribute) => (
+		const { product, handleAttributes, selectedAttributes } = this.props;
+
+		return product.attributes.map((attribute) => (
 			<div key={attribute.id} className="product-attr">
 				<h3 className="product-attr__name">{attribute.name}:</h3>
 				<div className="product-attr__attributes">
@@ -20,6 +25,7 @@ class ProductAttributes extends Component {
 							key={item.id}
 							onClick={() =>
 								handleAttributes({
+									productId: product.id,
 									attributeName: attribute.name,
 									itemId: item.id,
 									itemValue: item.value,
@@ -29,6 +35,7 @@ class ProductAttributes extends Component {
 								attribute.type === "text" ? "option-text" : "option-swatch"
 							} ${this.getSelectedAttribute(
 								selectedAttributes,
+								product.id,
 								attribute.name,
 								item.id
 							)}`}

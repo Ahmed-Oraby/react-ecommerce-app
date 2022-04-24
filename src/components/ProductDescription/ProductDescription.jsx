@@ -7,7 +7,6 @@ class ProductDescription extends Component {
 	state = {
 		serverData: null,
 		currentImage: "",
-		selectedAttributes: [], //an array for all the selected attributes for this product
 	};
 
 	requestServerData() {
@@ -48,15 +47,6 @@ class ProductDescription extends Component {
 			});
 	}
 
-	handleAttributes = (attributes) => {
-		let prevAttributes = [...this.state.selectedAttributes];
-		let selectedAttributes = prevAttributes.filter(
-			(item) => item.attributeName !== attributes.attributeName
-		);
-		selectedAttributes.push(attributes);
-		this.setState({ selectedAttributes });
-	};
-
 	handleImage = (image) => {
 		this.setState({ currentImage: image });
 	};
@@ -66,8 +56,8 @@ class ProductDescription extends Component {
 	}
 
 	render() {
-		const { serverData, currentImage, selectedAttributes } = this.state;
-		const { handleCartAdd } = this.props;
+		const { serverData, currentImage } = this.state;
+		const { handleCartAdd, selectedAttributes, handleAttributes } = this.props;
 		if (serverData === null) return null;
 		console.log("instock:", serverData.product.inStock);
 		console.log("product desc", this.state);
@@ -93,8 +83,8 @@ class ProductDescription extends Component {
 					<h2 className="item-brand">{serverData.product.brand}</h2>
 					<h2 className="item-name">{serverData.product.name}</h2>
 					<ProductAttributes
-						attributes={serverData.product.attributes}
-						handleAttributes={this.handleAttributes}
+						product={serverData.product}
+						handleAttributes={handleAttributes}
 						selectedAttributes={selectedAttributes}
 					/>
 					<div className="price">
@@ -109,7 +99,7 @@ class ProductDescription extends Component {
 						onClick={() =>
 							handleCartAdd({ product: serverData.product, selectedAttributes })
 						}
-						className={serverData.product.inStock ? "cart-btn" : "cart-btn disabled"}
+						className={serverData.product.inStock ? "btn" : "btn disabled"}
 					>
 						Add To Cart
 					</button>
