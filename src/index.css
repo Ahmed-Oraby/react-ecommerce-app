@@ -20,8 +20,8 @@ body {
 	font-weight: 400;
 	line-height: 1.6;
 	font-size: 1.8rem;
-	/* background-color: white; */
-	/* color: black; */
+	background-color: white;
+	color: #1d1f22;
 }
 
 .container {
@@ -68,25 +68,110 @@ body {
 .btn {
 	outline: none;
 	border: none;
-	background-color: #5ece7b;
-	color: white;
 	padding: 1.6rem 10rem;
 	font-size: 1.6rem;
 	font-weight: 600;
 	line-height: 1.2;
 	text-transform: uppercase;
 	cursor: pointer;
-	margin-top: 2rem;
 	white-space: nowrap;
 	text-decoration: none;
 }
 
-.btn:hover {
+.btn--green {
+	background-color: #5ece7b;
+	color: white;
+	border: 1px solid #5ece7b;
+}
+
+.btn--green:hover {
 	background-color: #4eac67;
+}
+
+.btn--white {
+	background-color: white;
+	color: #1d1f22;
+	border: 1px solid #1d1f22;
+}
+
+.btn--white:hover {
+	background-color: #1d1f22;
+	color: white;
 }
 
 .btn.disabled,
 .btn.disabled:hover {
 	background-color: #747474;
+	color: white;
 	cursor: default;
+}
+
+.option-text {
+	width: 65px;
+	height: 45px;
+	cursor: pointer;
+	margin-right: 1.2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	color: #292929;
+	border: 1px solid #1d1f22;
+	font-size: 1.6rem;
+	font-weight: 400;
+}
+
+.option-swatch {
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+	margin-right: 1.2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.cart-overlay .option-text {
+	width: 44px;
+	height: 24px;
+	font-size: 1.4rem;
+	margin-right: 0.8rem;
+}
+
+.cart .option-text,
+.cart-overlay .option-text {
+	cursor: default;
+	color: #a6a6a6;
+	background: rgba(166, 166, 166, 0.2);
+	border: 1px solid #a6a6a6;
+}
+
+.cart-overlay .option-swatch {
+	width: 16px;
+	height: 16px;
+	cursor: default;
+	margin-right: 0.8rem;
+}
+
+.cart .option-swatch {
+	cursor: default;
+}
+
+.option-text.active {
+	color: white;
+	background-color: #1d1f22;
+	border: 1px solid #1d1f22;
+}
+
+.option-swatch.active {
+	outline: 2px solid #5ece7b;
+	border: 1px solid #fff;
+}
+
+.attributes-alert {
+	text-align: center;
+	font-weight: 700;
+	font-size: 2rem;
+	border: 2px solid red;
+	margin-bottom: 2rem;
 }

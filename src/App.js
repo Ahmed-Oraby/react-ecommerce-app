@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar/NavBar";
 import CategoryListing from "./components/CategoryListing/CategoryListing";
 import ProductDescription from "./components/ProductDescription/ProductDescription";
 import Cart from "./components/Cart/Cart";
+import CartOverlay from "./components/CartOverlay/CartOverlay";
 
 class App extends Component {
 	state = {
@@ -11,6 +12,7 @@ class App extends Component {
 		currentCategory: "all",
 		cartItems: [], //an array for holding all the items in cart
 		selectedAttributes: [], //an array for all the selected attributes for all products
+		attributesAlert: null,
 	};
 
 	requestServerData() {
@@ -42,7 +44,7 @@ class App extends Component {
 	}
 
 	handleCategory = (categoryName) => {
-		this.setState({ currentCategory: categoryName });
+		this.setState({ currentCategory: categoryName, attributesAlert: null });
 	};
 
 	handleAttributes = (attributes) => {
@@ -63,6 +65,18 @@ class App extends Component {
 	};
 
 	handleCartAdd = (productItem, index = 0) => {
+		// make sure all attributes are selected
+		let selectedAttributes = [...this.state.selectedAttributes];
+		let attributesCount = 0;
+		for (let item of selectedAttributes) {
+			if (item.productId === productItem.product.id) attributesCount++;
+		}
+		if (attributesCount !== productItem.product.attributes.length) {
+			this.setState({ attributesAlert: productItem.product.id });
+			return;
+		}
+
+		// add an item to the cart
 		let prevCartItems = [...this.state.cartItems];
 		let cartItems = prevCartItems.filter((item) => productItem.product.id !== item.product.id);
 		let productInCart = prevCartItems.filter(
@@ -73,7 +87,7 @@ class App extends Component {
 		else productItem.count = productInCart[0].count + 1;
 
 		cartItems.splice(index, 0, productItem);
-		this.setState({ cartItems });
+		this.setState({ cartItems, attributesAlert: null });
 	};
 
 	handleCartRemove = (productItem, index = 0) => {
@@ -108,7 +122,8 @@ class App extends Component {
 	}
 
 	render() {
-		const { serverData, currentCategory, cartItems, selectedAttributes } = this.state;
+		const { serverData, currentCategory, cartItems, selectedAttributes, attributesAlert } =
+			this.state;
 
 		if (serverData === null) return null;
 
@@ -118,6 +133,7 @@ class App extends Component {
 					key={category.name}
 					categoryName={currentCategory}
 					products={category.products}
+					cartItems={cartItems}
 				/>
 			) : null
 		);
@@ -128,11 +144,21 @@ class App extends Component {
 					categories={serverData.categories}
 					currentCategory={currentCategory}
 					handleCategory={this.handleCategory}
-				/>
+				>
+					<CartOverlay
+						cartItems={cartItems}
+						selectedAttributes={selectedAttributes}
+						handleCartAdd={this.handleCartAdd}
+						handleCartRemove={this.handleCartRemove}
+						handleCartGallery={this.handleCartGallery}
+						handleAttributes={this.handleAttributes}
+					/>
+				</NavBar>
 				<Switch>
 					<Route path="/product/:productId">
 						<ProductDescription
 							selectedAttributes={selectedAttributes}
+							attributesAlert={attributesAlert}
 							handleAttributes={this.handleAttributes}
 							handleCartAdd={this.handleCartAdd}
 						/>

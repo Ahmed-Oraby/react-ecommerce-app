@@ -1,0 +1,125 @@
+.cart-overlay {
+	position: relative;
+}
+
+.cart-overlay__icon {
+	width: 23px;
+	height: 23px;
+	border-radius: 100%;
+	background-color: #1d1f22;
+	color: white;
+	position: absolute;
+	bottom: 15px;
+	left: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: "Roboto", sans-serif;
+	font-weight: 700;
+	font-size: 1.4rem;
+}
+
+.modal-bg {
+	position: fixed;
+	top: 86px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(57, 55, 72, 0.22);
+	z-index: 99;
+	overflow: auto;
+}
+
+/* hide scroll bar in cart overlay */
+.cart-overlay__modal::-webkit-scrollbar {
+	display: none;
+}
+
+.cart-overlay__modal {
+	width: 400px;
+	position: absolute;
+	top: 0px;
+	right: 70px;
+	background-color: white;
+	padding: 3.2rem 1.6rem;
+	overflow: auto;
+	scrollbar-width: none;
+	/* height: 70vh; */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.cart-overlay__title {
+	font-size: 1.6rem;
+	font-weight: 700;
+	margin-bottom: 3.2rem;
+}
+
+.cart-overlay__buttons {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.cart-overlay__buttons .btn {
+	padding: 1.3rem 3rem;
+}
+
+.cart-overlay__total {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 1.6rem;
+	font-weight: 500;
+	margin: 0 0.5rem 3.2rem 0;
+}
+
+.cart-overlay__item {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 4rem;
+}
+
+.cart-overlay__header p {
+	font-size: 1.6rem;
+	font-weight: 300;
+	margin: 0.5rem 0;
+}
+
+.cart-overlay__gallery {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.cart-overlay__gallery img {
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+
+.cart-overlay__gallery span {
+	font-size: 1.6rem;
+	font-weight: 500;
+}
+
+.cart-overlay__image {
+	width: 120px;
+	height: 190px;
+	object-fit: contain;
+	margin-left: 1rem;
+}
+
+.cart-overlay .product-attr {
+	margin-top: 0.8rem;
+}
+
+.cart-overlay .product-attr__name {
+	font-size: 1.4rem;
+	font-weight: 400;
+	margin-top: 1rem;
+}

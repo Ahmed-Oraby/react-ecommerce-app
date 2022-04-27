@@ -1,10 +1,15 @@
 /* Product component styles */
 .product {
 	max-width: fit-content;
-	padding: 1rem;
+	padding: 1.6rem;
 	/* font-size: 1.8rem; */
 	margin: 0 6rem 10rem 0;
 	text-align: center;
+	position: relative;
+}
+
+.product.in-cart {
+	box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
 }
 
 .product__image {
@@ -21,4 +26,17 @@
 
 .product__price {
 	font-weight: 500;
+}
+
+.product__cart-icon {
+	width: 52px;
+	height: 52px;
+	border-radius: 100%;
+	background-color: #5ece7b;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	bottom: 70px;
+	right: 40px;
 }

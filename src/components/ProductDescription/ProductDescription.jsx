@@ -57,7 +57,7 @@ class ProductDescription extends Component {
 
 	render() {
 		const { serverData, currentImage } = this.state;
-		const { handleCartAdd, selectedAttributes, handleAttributes } = this.props;
+		const { selectedAttributes, attributesAlert, handleCartAdd, handleAttributes } = this.props;
 		if (serverData === null) return null;
 		console.log("instock:", serverData.product.inStock);
 		console.log("product desc", this.state);
@@ -86,6 +86,7 @@ class ProductDescription extends Component {
 						product={serverData.product}
 						handleAttributes={handleAttributes}
 						selectedAttributes={selectedAttributes}
+						isDisabled={false}
 					/>
 					<div className="price">
 						<h3>Price</h3>
@@ -94,12 +95,13 @@ class ProductDescription extends Component {
 								serverData.product.prices[0].amount}
 						</p>
 					</div>
+					{attributesAlert === serverData.product.id ? (
+						<div className="attributes-alert">Please, select all options!</div>
+					) : null}
 					<button
 						disabled={!serverData.product.inStock}
-						onClick={() =>
-							handleCartAdd({ product: serverData.product, selectedAttributes })
-						}
-						className={serverData.product.inStock ? "btn" : "btn disabled"}
+						onClick={() => handleCartAdd({ product: serverData.product })}
+						className={serverData.product.inStock ? "btn btn--green" : "btn disabled"}
 					>
 						Add To Cart
 					</button>

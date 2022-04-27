@@ -22,12 +22,12 @@ class Cart extends Component {
 		let total = 0;
 
 		if (cartItems.length !== 0) {
-			tax = 15;
 			qty = cartItems.map((item) => item.count).reduce((prev, current) => prev + current);
 			total = cartItems
 				.map((item) => item.product.prices[0].amount * item.count)
-				.reduce((prev, current) => prev + current)
-				.toFixed(2);
+				.reduce((prev, current) => prev + current);
+			tax = total * 0.1;
+			total = total + tax;
 		}
 
 		return (
@@ -46,6 +46,7 @@ class Cart extends Component {
 								product={item.product}
 								selectedAttributes={selectedAttributes}
 								handleAttributes={handleAttributes}
+								isDisabled={true}
 							/>
 						</div>
 						<div style={{ display: "flex" }}>
@@ -84,15 +85,15 @@ class Cart extends Component {
 				))}
 				<div className="cart-total">
 					<p>
-						Tax: <span style={{ fontWeight: 700 }}>{tax}$</span>
+						Tax (10%): <span style={{ fontWeight: 700 }}>{tax.toFixed(2)}$</span>
 					</p>
 					<p>
 						Qty: <span style={{ fontWeight: 700 }}>{qty}</span>
 					</p>
 					<p className="total">
-						Total: <span style={{ fontWeight: 700 }}>{total}$</span>
+						Total: <span style={{ fontWeight: 700 }}>{total.toFixed(2)}$</span>
 					</p>
-					<button disabled={!total} className={total ? "btn" : "btn disabled"}>
+					<button disabled={!total} className={total ? "btn btn--green" : "btn disabled"}>
 						Order
 					</button>
 				</div>

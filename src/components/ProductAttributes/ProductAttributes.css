@@ -14,37 +14,3 @@
 	display: flex;
 	margin-top: 1rem;
 }
-
-.option-text {
-	width: 65px;
-	height: 45px;
-	cursor: pointer;
-	margin-right: 1.2rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: white;
-	color: #292929;
-	border: 1px solid #1d1f22;
-	font-size: 1.6rem;
-}
-
-.option-text.active {
-	color: white;
-	background-color: #1d1f22;
-}
-
-.option-swatch {
-	width: 32px;
-	height: 32px;
-	cursor: pointer;
-	margin-right: 1.2rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.option-swatch.active {
-	outline: 2px solid #5ece7b;
-	border: 2px solid #fff;
-}

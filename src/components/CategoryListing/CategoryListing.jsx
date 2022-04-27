@@ -4,14 +4,18 @@ import "./CategoryListing.css";
 
 class CategoryListing extends Component {
 	render() {
-		const { categoryName, products } = this.props;
+		const { categoryName, products, cartItems } = this.props;
 		console.log(products);
 		return (
 			<div className="container category">
 				<h1 className="category__title">{categoryName}</h1>
 				<div className="category__listing">
 					{products.map((product) => (
-						<ProductItem key={product.id} productDetails={product} />
+						<ProductItem
+							key={product.id}
+							productDetails={product}
+							cartItems={cartItems}
+						/>
 					))}
 				</div>
 			</div>

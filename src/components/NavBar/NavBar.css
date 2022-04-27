@@ -1,15 +1,24 @@
 /* NavBar component styles */
 .navbar {
-	/* padding: 2rem; */
-	margin-top: 2rem;
+	padding: 2rem 10rem;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1;
+	background-color: white;
 }
 
 .navbar ul {
 	list-style: none;
 	display: flex;
+}
+
+.navbar__logo {
+	margin-right: 15rem;
 }
 
 .navbar__item {
