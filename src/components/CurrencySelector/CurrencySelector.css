@@ -1,0 +1,41 @@
+.currency {
+	position: relative;
+}
+
+.currency__icon {
+	cursor: pointer;
+	margin-right: 3rem;
+	width: 50px;
+}
+
+.currency__icon span {
+	font-weight: 500;
+	margin-right: 1rem;
+}
+
+.currency__icon img {
+	margin-bottom: 0.3rem;
+}
+
+.currency__menu {
+	z-index: 2;
+	background-color: white;
+	position: absolute;
+	top: 40px;
+	left: -30px;
+	width: 120px;
+}
+
+.currency__menu ul {
+	list-style: none;
+	font-weight: 500;
+}
+
+.currency__item {
+	cursor: pointer;
+	padding: 1rem 2rem;
+}
+
+.currency__item:hover {
+	background-color: #eeeeee;
+}

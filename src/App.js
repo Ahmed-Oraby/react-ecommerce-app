@@ -5,14 +5,16 @@ import CategoryListing from "./components/CategoryListing/CategoryListing";
 import ProductDescription from "./components/ProductDescription/ProductDescription";
 import Cart from "./components/Cart/Cart";
 import CartOverlay from "./components/CartOverlay/CartOverlay";
+import CurrencySelector from "./components/CurrencySelector/CurrencySelector";
+import { CurrencyContext, currency } from "./currency-context";
 
 class App extends Component {
 	state = {
 		serverData: null,
 		currentCategory: "all",
+		currentCurrency: currency[0], //set intial currency to USD
 		cartItems: [], //an array for holding all the items in cart
-		selectedAttributes: [], //an array for all the selected attributes for all products
-		attributesAlert: null,
+		attributesAlert: null, //a value for setting an alert if attributes are not selected
 	};
 
 	requestServerData() {
@@ -38,82 +40,81 @@ class App extends Component {
 		)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				this.setState({ serverData: data.data });
 			});
 	}
+
+	handleCurrency = (currencyLabel) => {
+		let currencyType = currency.filter((item) => item.label === currencyLabel);
+		this.setState({ currentCurrency: currencyType[0] });
+	};
 
 	handleCategory = (categoryName) => {
 		this.setState({ currentCategory: categoryName, attributesAlert: null });
 	};
 
-	handleAttributes = (attributes) => {
-		let prevAttributes = [...this.state.selectedAttributes];
-
-		let selectedAttributes = prevAttributes.filter(
-			(item) => item.productId !== attributes.productId
-		);
-
-		let productAttributes = prevAttributes
-			.filter((item) => item.productId === attributes.productId)
-			.filter((item) => item.attributeName !== attributes.attributeName);
-
-		if (productAttributes.length !== 0) selectedAttributes.push(...productAttributes);
-
-		selectedAttributes.push(attributes);
-		this.setState({ selectedAttributes });
-	};
-
-	handleCartAdd = (productItem, index = 0) => {
-		// make sure all attributes are selected
-		let selectedAttributes = [...this.state.selectedAttributes];
-		let attributesCount = 0;
-		for (let item of selectedAttributes) {
-			if (item.productId === productItem.product.id) attributesCount++;
-		}
-		if (attributesCount !== productItem.product.attributes.length) {
-			this.setState({ attributesAlert: productItem.product.id });
+	handleCartAdd = (product, attributes) => {
+		//make sure all attributes are selected
+		if (product.attributes.length !== attributes.length) {
+			this.setState({ attributesAlert: product.id });
 			return;
 		}
 
-		// add an item to the cart
 		let prevCartItems = [...this.state.cartItems];
-		let cartItems = prevCartItems.filter((item) => productItem.product.id !== item.product.id);
-		let productInCart = prevCartItems.filter(
-			(item) => productItem.product.id === item.product.id
-		);
+		let cartItems = prevCartItems.filter((item) => product.id !== item.product.id);
+		let productInCart = prevCartItems.filter((item) => product.id === item.product.id);
+		let productWithSameAttr = [];
+		let productWithDiffAttr = [];
 
-		if (productInCart.length === 0) productItem.count = 1;
-		else productItem.count = productInCart[0].count + 1;
+		for (let product of productInCart) {
+			let attrCheck = product.attributes.every(
+				(attr, index) =>
+					attr.attributeName === attributes[index].attributeName &&
+					attr.itemId === attributes[index].itemId
+			);
+			if (attrCheck) productWithSameAttr.push(product);
+			else productWithDiffAttr.push(product);
+		}
 
-		cartItems.splice(index, 0, productItem);
+		if (productInCart.length === 0) {
+			cartItems.unshift({ product, attributes, count: 1 });
+		} else if (productWithSameAttr.length) {
+			productWithSameAttr[0].count++;
+			cartItems.unshift(productWithSameAttr[0]);
+			if (productWithDiffAttr.length) cartItems.unshift(...productWithDiffAttr);
+		} else if (productWithDiffAttr.length)
+			cartItems.unshift({ product, attributes, count: 1 }, ...productWithDiffAttr);
+
+		console.log("cart items:", cartItems);
 		this.setState({ cartItems, attributesAlert: null });
 	};
 
-	handleCartRemove = (productItem, index = 0) => {
-		let prevCartItems = [...this.state.cartItems];
-		let cartItems = prevCartItems.filter((item) => productItem.product.id !== item.product.id);
-
-		if (productItem.count > 1) {
-			productItem.count--;
-			cartItems.splice(index, 0, productItem);
-		}
+	handleCartIncrement = (index) => {
+		let cartItems = [...this.state.cartItems];
+		cartItems[index].count++;
 		this.setState({ cartItems });
 	};
 
-	handleCartGallery = (itemIndex, direction = true) => {
+	handleCartDecrement = (index) => {
 		let cartItems = [...this.state.cartItems];
-		let imageGallery = cartItems.map((item) => item.product.gallery);
+		if (cartItems[index].count > 1) cartItems[index].count--;
+		else cartItems.splice(index, 1);
+		this.setState({ cartItems });
+	};
+
+	handleCartGallery = (index, direction = true) => {
+		let cartItems = [...this.state.cartItems];
+		let imageGallery = [...cartItems[index].product.gallery];
 
 		if (direction) {
-			let img = imageGallery[itemIndex].shift();
-			imageGallery[itemIndex].push(img);
+			let img = imageGallery.shift();
+			imageGallery.push(img);
 		} else {
-			let img = imageGallery[itemIndex].pop();
-			imageGallery[itemIndex].unshift(img);
+			let img = imageGallery.pop();
+			imageGallery.unshift(img);
 		}
 
-		cartItems[itemIndex].product.gallery = imageGallery[itemIndex];
+		cartItems[index].product.gallery = imageGallery;
 		this.setState({ cartItems });
 	};
 
@@ -122,8 +123,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { serverData, currentCategory, cartItems, selectedAttributes, attributesAlert } =
-			this.state;
+		const { serverData, currentCategory, cartItems, attributesAlert } = this.state;
 
 		if (serverData === null) return null;
 
@@ -139,43 +139,37 @@ class App extends Component {
 		);
 
 		return (
-			<>
+			<CurrencyContext.Provider value={this.state.currentCurrency}>
 				<NavBar
 					categories={serverData.categories}
 					currentCategory={currentCategory}
 					handleCategory={this.handleCategory}
 				>
+					<CurrencySelector handleCurrency={this.handleCurrency} />
 					<CartOverlay
 						cartItems={cartItems}
-						selectedAttributes={selectedAttributes}
-						handleCartAdd={this.handleCartAdd}
-						handleCartRemove={this.handleCartRemove}
-						handleCartGallery={this.handleCartGallery}
-						handleAttributes={this.handleAttributes}
+						handleCartIncrement={this.handleCartIncrement}
+						handleCartDecrement={this.handleCartDecrement}
 					/>
 				</NavBar>
 				<Switch>
 					<Route path="/product/:productId">
 						<ProductDescription
-							selectedAttributes={selectedAttributes}
 							attributesAlert={attributesAlert}
-							handleAttributes={this.handleAttributes}
 							handleCartAdd={this.handleCartAdd}
 						/>
 					</Route>
 					<Route path="/cart">
 						<Cart
 							cartItems={cartItems}
-							selectedAttributes={selectedAttributes}
-							handleCartAdd={this.handleCartAdd}
-							handleCartRemove={this.handleCartRemove}
+							handleCartIncrement={this.handleCartIncrement}
+							handleCartDecrement={this.handleCartDecrement}
 							handleCartGallery={this.handleCartGallery}
-							handleAttributes={this.handleAttributes}
 						/>
 					</Route>
 					<Route path="/">{listingPage}</Route>
 				</Switch>
-			</>
+			</CurrencyContext.Provider>
 
 			/* {data.categories.map((category) =>
 					currentCategory === category.name ? (

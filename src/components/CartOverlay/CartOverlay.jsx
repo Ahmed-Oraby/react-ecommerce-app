@@ -5,15 +5,17 @@ import cart from "../../icons/cart.svg";
 import plus from "../../icons/plus-square.svg";
 import minus from "../../icons/minus-square.svg";
 import "./CartOverlay.css";
+import { CurrencyContext } from "../../currency-context";
 
 class CartOverlay extends Component {
 	state = {
 		cartVisible: false,
 	};
 
+	static contextType = CurrencyContext;
+
 	handleCartActive = () => {
-		let cartVisible = this.state.cartVisible;
-		this.setState({ cartVisible: !cartVisible });
+		this.setState((prevState) => ({ cartVisible: !prevState.cartVisible }));
 	};
 
 	handleModal = (e) => {
@@ -24,23 +26,27 @@ class CartOverlay extends Component {
 		}
 	};
 
-	// componentDidUpdate() {
-	// 	let cartModal = document.getElementById("cart-modal");
-	// 	let windowHeight = window.innerHeight;
-	// 	if (cartModal !== null) {
-	// 		console.log(cartModal.offsetHeight, windowHeight);
-	// 		if (cartModal.offsetHeight > windowHeight * 0.7) {
-	// 			cartModal.style.height = "70vh";
-	// 		} else {
-	// 			cartModal.style.height = "auto";
-	// 		}
-	// 	}
-	// }
+	// getItemPrice = (ProductItem) => {
+	//
+	// 	const itemPrice = ProductItem.product.prices.filter(
+	// 		(price) => price.currency.label === currencyType.label
+	// 	);
+	// 	return itemPrice[0];
+	// };
 
 	render() {
 		const { cartVisible } = this.state;
-		const { cartItems, selectedAttributes, handleCartAdd, handleCartRemove, handleAttributes } =
-			this.props;
+		const { cartItems, handleCartIncrement, handleCartDecrement } = this.props;
+
+		const currencyType = this.context;
+		const cartPrices = cartItems
+			.map((item) => item.product.prices)
+			//eslint-disable-next-line
+			.map((prices) => {
+				for (let price of prices) {
+					if (price.currency.label === currencyType.label) return price;
+				}
+			});
 
 		let qty = 0;
 		let total = 0;
@@ -48,19 +54,19 @@ class CartOverlay extends Component {
 
 		if (cartItems.length !== 0) {
 			qty = cartItems.map((item) => item.count).reduce((prev, current) => prev + current);
-			total = cartItems
-				.map((item) => item.product.prices[0].amount * item.count)
-				.reduce((prev, current) => prev + current)
-				.toFixed(2);
-			total = Number(total);
+			total = cartPrices
+				.map((item, index) => item.amount * cartItems[index].count)
+				.reduce((prev, current) => prev + current);
+			// 	.toFixed(2);
+			// total = Number(total);
 			if (cartItems.length >= 2) height = "80vh";
 		}
 
 		return (
 			<div className="cart-overlay">
-				<div style={{ cursor: "pointer" }} onClick={this.handleCartActive}>
+				<div className="cart-overlay__icon" onClick={this.handleCartActive}>
 					<img src={cart} alt="" />
-					<div className="cart-overlay__icon">{qty}</div>
+					<div className="cart-overlay__qty">{qty}</div>
 				</div>
 				{cartVisible ? (
 					<div id="modal" className="modal-bg" onClick={(e) => this.handleModal(e)}>
@@ -70,19 +76,18 @@ class CartOverlay extends Component {
 							</h2>
 
 							{cartItems.map((item, index) => (
-								<div key={item.product.id} className="cart-overlay__item">
+								<div key={index} className="cart-overlay__item">
 									<div className="cart-overlay__header">
 										<p>{item.product.brand}</p>
 										<p>{item.product.name}</p>
 										<p style={{ fontWeight: 500 }}>
-											{item.product.prices[0].currency.symbol +
-												item.product.prices[0].amount}
+											{cartPrices[index].currency.symbol +
+												cartPrices[index].amount}
 										</p>
 										<ProductAttributes
 											product={item.product}
-											selectedAttributes={selectedAttributes}
-											handleAttributes={handleAttributes}
-											isDisabled={true}
+											selectedAttributes={item.attributes}
+											handleAttributes={() => null}
 										/>
 									</div>
 									<div style={{ display: "flex" }}>
@@ -90,13 +95,13 @@ class CartOverlay extends Component {
 											<img
 												src={plus}
 												alt=""
-												onClick={() => handleCartAdd(item, index)}
+												onClick={() => handleCartIncrement(index)}
 											/>
 											<span>{item.count}</span>
 											<img
 												src={minus}
 												alt=""
-												onClick={() => handleCartRemove(item, index)}
+												onClick={() => handleCartDecrement(index)}
 											/>
 										</div>
 										<img
@@ -112,7 +117,7 @@ class CartOverlay extends Component {
 								<div className="cart-overlay__total">
 									<p>Total</p>
 									<p style={{ fontFamily: "Roboto", fontWeight: 700 }}>
-										${total}
+										{currencyType.symbol + total.toFixed(2)}
 									</p>
 								</div>
 								<div className="cart-overlay__buttons">

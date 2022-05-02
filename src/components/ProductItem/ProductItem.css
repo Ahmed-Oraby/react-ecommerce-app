@@ -1,11 +1,9 @@
 /* Product component styles */
 .product {
-	max-width: fit-content;
 	padding: 1.6rem;
-	/* font-size: 1.8rem; */
-	margin: 0 6rem 10rem 0;
 	text-align: center;
 	position: relative;
+	width: 350px;
 }
 
 .product.in-cart {
@@ -14,7 +12,7 @@
 
 .product__image {
 	cursor: pointer;
-	width: 350px;
+	width: 100%;
 	height: 350px;
 	object-fit: contain;
 }

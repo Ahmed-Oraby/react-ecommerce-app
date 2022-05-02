@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import cart from "../../icons/cart-white.svg";
 import "./ProductItem.css";
+import { CurrencyContext } from "../../currency-context";
 
 class ProductItem extends Component {
+	static contextType = CurrencyContext;
+
 	productInCart = (cartItems, productId) => {
 		for (let item of cartItems) {
 			if (item.product.id === productId) return true;
@@ -13,6 +16,11 @@ class ProductItem extends Component {
 	render() {
 		const { productDetails, cartItems } = this.props;
 		const inCart = this.productInCart(cartItems, productDetails.id);
+
+		const currencyType = this.context;
+		const itemPrice = productDetails.prices.filter(
+			(item) => item.currency.label === currencyType.label
+		);
 
 		return (
 			<div className={inCart ? "product in-cart" : "product"}>
@@ -34,7 +42,7 @@ class ProductItem extends Component {
 
 				<h2 className="product__title">{productDetails.name}</h2>
 				<p className="product__price">
-					{productDetails.prices[0].currency.symbol + productDetails.prices[0].amount}
+					{itemPrice[0].currency.symbol + itemPrice[0].amount}
 				</p>
 			</div>
 		);

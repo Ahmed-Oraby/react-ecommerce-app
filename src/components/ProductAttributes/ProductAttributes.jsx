@@ -15,7 +15,7 @@ class ProductAttributes extends Component {
 	}
 
 	render() {
-		const { product, handleAttributes, selectedAttributes, isDisabled } = this.props;
+		const { product, selectedAttributes, handleAttributes } = this.props;
 
 		return product.attributes.map((attribute) => (
 			<div key={attribute.id} className="product-attr">
@@ -24,16 +24,13 @@ class ProductAttributes extends Component {
 					{attribute.items.map((item) => (
 						<div
 							key={item.id}
-							onClick={
-								isDisabled
-									? null
-									: () =>
-											handleAttributes({
-												productId: product.id,
-												attributeName: attribute.name,
-												itemId: item.id,
-												itemValue: item.value,
-											})
+							onClick={() =>
+								handleAttributes({
+									productId: product.id,
+									attributeName: attribute.name,
+									itemId: item.id,
+									itemValue: item.value,
+								})
 							}
 							className={`${
 								attribute.type === "text" ? "option-text" : "option-swatch"

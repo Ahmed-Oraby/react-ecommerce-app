@@ -3,7 +3,7 @@
 	margin: 18rem 10rem;
 }
 .category__title {
-	margin: 10rem 4rem;
+	margin: 10rem 2rem;
 	font-size: 4.2rem;
 	font-weight: 400;
 	text-transform: capitalize;
@@ -11,17 +11,19 @@
 
 .category__listing {
 	display: grid;
-	grid-template-columns: repeat(1, minmax(0, 1fr));
+	grid-template-columns: repeat(1, minmax(350px, 1fr));
+	row-gap: 8rem;
+	column-gap: 4rem;
 }
 
 @media screen and (min-width: 768px) {
 	.category__listing {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-columns: repeat(2, minmax(350px, 1fr));
 	}
 }
 
 @media screen and (min-width: 1024px) {
 	.category__listing {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(3, minmax(350px, 1fr));
 	}
 }

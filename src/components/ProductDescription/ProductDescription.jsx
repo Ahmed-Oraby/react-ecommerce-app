@@ -2,12 +2,16 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import ProductAttributes from "../ProductAttributes/ProductAttributes";
 import "./ProductDescription.css";
+import { CurrencyContext } from "../../currency-context";
 
 class ProductDescription extends Component {
 	state = {
 		serverData: null,
 		currentImage: "",
+		selectedAttributes: [],
 	};
+
+	static contextType = CurrencyContext;
 
 	requestServerData() {
 		fetch(
@@ -41,11 +45,23 @@ class ProductDescription extends Component {
 		)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				let serverData = data.data;
 				this.setState({ serverData, currentImage: serverData.product.gallery[0] });
 			});
 	}
+
+	handleAttributes = (attributes) => {
+		let prevAttributes = [...this.state.selectedAttributes];
+		let selectedAttributes = [];
+		let productAttributes = prevAttributes.filter(
+			(item) => item.attributeName !== attributes.attributeName
+		);
+
+		if (productAttributes.length !== 0) selectedAttributes.push(...productAttributes);
+
+		selectedAttributes.push(attributes);
+		this.setState({ selectedAttributes });
+	};
 
 	handleImage = (image) => {
 		this.setState({ currentImage: image });
@@ -56,11 +72,15 @@ class ProductDescription extends Component {
 	}
 
 	render() {
-		const { serverData, currentImage } = this.state;
-		const { selectedAttributes, attributesAlert, handleCartAdd, handleAttributes } = this.props;
+		const { serverData, currentImage, selectedAttributes } = this.state;
+		const { attributesAlert, handleCartAdd } = this.props;
+
 		if (serverData === null) return null;
-		console.log("instock:", serverData.product.inStock);
-		console.log("product desc", this.state);
+
+		const currencyType = this.context;
+		const itemPrice = serverData.product.prices.filter(
+			(item) => item.currency.label === currencyType.label
+		);
 		return (
 			<div className="container product-desc">
 				<div className="gallery">
@@ -84,23 +104,21 @@ class ProductDescription extends Component {
 					<h2 className="item-name">{serverData.product.name}</h2>
 					<ProductAttributes
 						product={serverData.product}
-						handleAttributes={handleAttributes}
 						selectedAttributes={selectedAttributes}
-						isDisabled={false}
+						handleAttributes={this.handleAttributes}
 					/>
 					<div className="price">
 						<h3>Price</h3>
 						<p className="item-price">
-							{serverData.product.prices[0].currency.symbol +
-								serverData.product.prices[0].amount}
+							{itemPrice[0].currency.symbol + itemPrice[0].amount}
 						</p>
 					</div>
 					{attributesAlert === serverData.product.id ? (
-						<div className="attributes-alert">Please, select all options!</div>
+						<div className="attributes-alert">Please, select all attributes!</div>
 					) : null}
 					<button
 						disabled={!serverData.product.inStock}
-						onClick={() => handleCartAdd({ product: serverData.product })}
+						onClick={() => handleCartAdd(serverData.product, selectedAttributes)}
 						className={serverData.product.inStock ? "btn btn--green" : "btn disabled"}
 					>
 						Add To Cart

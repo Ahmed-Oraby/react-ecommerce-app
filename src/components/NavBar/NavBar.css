@@ -12,7 +12,7 @@
 	background-color: white;
 }
 
-.navbar ul {
+.navbar .navbar__menu {
 	list-style: none;
 	display: flex;
 }

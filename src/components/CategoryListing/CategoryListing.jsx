@@ -5,7 +5,6 @@ import "./CategoryListing.css";
 class CategoryListing extends Component {
 	render() {
 		const { categoryName, products, cartItems } = this.props;
-		console.log(products);
 		return (
 			<div className="container category">
 				<h1 className="category__title">{categoryName}</h1>
