@@ -30,16 +30,6 @@
 	color: #1d1f22;
 }
 
-/* .product-desc__details .brand {
-	font-size: 3rem;
-	font-weight: 600;
-}
-
-.product-desc__details .name {
-	font-size: 3rem;
-	font-weight: 400;
-} */
-
 .product-desc__details .price {
 	margin-top: 4rem;
 	margin-bottom: 2rem;
@@ -53,36 +43,8 @@
 	text-transform: uppercase;
 }
 
-/* .product-desc__details .cart-btn {
-	outline: none;
-	border: none;
-	background-color: #5ece7b;
-	color: white;
-	padding: 1.5rem 10rem;
-	font-size: 1.6rem;
-	font-weight: 600;
-	line-height: 1.2;
-	text-transform: uppercase;
-	cursor: pointer;
-	margin-top: 2rem;
-	white-space: nowrap;
-}
-
-.product-desc__details .cart-btn:hover {
-	background-color: #4eac67;
-} */
-
 .product-desc__details .description {
 	font-family: "Roboto", sans-serif;
 	font-size: 1.6rem;
 	margin-top: 4rem;
 }
-
-/* .cart-btn.disabled {
-	background-color: #747474;
-	cursor: default;
-}
-
-.cart-btn.disabled:hover {
-	background-color: #747474;
-} */

@@ -49,7 +49,6 @@
 	padding: 3.2rem 1.6rem;
 	overflow: auto;
 	scrollbar-width: none;
-	/* height: 70vh; */
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -127,4 +126,10 @@
 	font-size: 1.4rem;
 	font-weight: 400;
 	margin-top: 1rem;
+}
+
+.cart-overlay-empty {
+	font-weight: 500;
+	text-align: center;
+	margin-bottom: 2rem;
 }

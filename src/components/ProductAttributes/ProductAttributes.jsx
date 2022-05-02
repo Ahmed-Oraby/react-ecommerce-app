@@ -47,26 +47,6 @@ class ProductAttributes extends Component {
 							{attribute.type === "text" ? item.value : ""}
 						</div>
 					))}
-
-					{/* {attribute.type === "swatch" &&
-						attribute.items.map((item) => (
-							<div
-								key={item.id}
-								onClick={() =>
-									handleAttributes({
-										attributeName: attribute.name,
-										itemId: item.id,
-										itemValue: item.value,
-									})
-								}
-								className={`option-swatch ${this.getActiveClass(
-									selectedAttributes,
-									attribute.name,
-									item.id
-								)}`}
-								style={{ backgroundColor: item.value }}
-							></div>
-						))} */}
 				</div>
 			</div>
 		));

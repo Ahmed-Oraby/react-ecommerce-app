@@ -26,14 +26,6 @@ class CartOverlay extends Component {
 		}
 	};
 
-	// getItemPrice = (ProductItem) => {
-	//
-	// 	const itemPrice = ProductItem.product.prices.filter(
-	// 		(price) => price.currency.label === currencyType.label
-	// 	);
-	// 	return itemPrice[0];
-	// };
-
 	render() {
 		const { cartVisible } = this.state;
 		const { cartItems, handleCartIncrement, handleCartDecrement } = this.props;
@@ -57,8 +49,6 @@ class CartOverlay extends Component {
 			total = cartPrices
 				.map((item, index) => item.amount * cartItems[index].count)
 				.reduce((prev, current) => prev + current);
-			// 	.toFixed(2);
-			// total = Number(total);
 			if (cartItems.length >= 2) height = "80vh";
 		}
 
@@ -114,19 +104,28 @@ class CartOverlay extends Component {
 							))}
 
 							<div>
-								<div className="cart-overlay__total">
-									<p>Total</p>
-									<p style={{ fontFamily: "Roboto", fontWeight: 700 }}>
-										{currencyType.symbol + total.toFixed(2)}
-									</p>
-								</div>
+								{cartItems.length ? (
+									<div className="cart-overlay__total">
+										<p>Total</p>
+										<p style={{ fontFamily: "Roboto", fontWeight: 700 }}>
+											{currencyType.symbol + total.toFixed(2)}
+										</p>
+									</div>
+								) : (
+									<p className="cart-overlay-empty">Your cart is empty!</p>
+								)}
 								<div className="cart-overlay__buttons">
 									<Link to="/cart">
 										<button id="view-bag" className="btn btn--white">
 											View Bag
 										</button>
 									</Link>
-									<button className="btn btn--green">Check Out</button>
+									<button
+										disabled={!total}
+										className={total ? "btn btn--green" : "btn disabled"}
+									>
+										Check Out
+									</button>
 								</div>
 							</div>
 						</div>

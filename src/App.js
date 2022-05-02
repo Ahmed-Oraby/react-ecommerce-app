@@ -14,7 +14,7 @@ class App extends Component {
 		currentCategory: "all",
 		currentCurrency: currency[0], //set intial currency to USD
 		cartItems: [], //an array for holding all the items in cart
-		attributesAlert: null, //a value for setting an alert if attributes are not selected
+		attributesAlert: null, //a flag for setting an alert if attributes are not selected
 	};
 
 	requestServerData() {
@@ -53,7 +53,10 @@ class App extends Component {
 		this.setState({ currentCategory: categoryName, attributesAlert: null });
 	};
 
-	handleCartAdd = (product, attributes) => {
+	handleCartAdd = (productItem, attributesArray) => {
+		const product = { ...productItem };
+		const attributes = [...attributesArray];
+
 		//make sure all attributes are selected
 		if (product.attributes.length !== attributes.length) {
 			this.setState({ attributesAlert: product.id });
@@ -127,17 +130,6 @@ class App extends Component {
 
 		if (serverData === null) return null;
 
-		const listingPage = serverData.categories.map((category) =>
-			currentCategory === category.name ? (
-				<CategoryListing
-					key={category.name}
-					categoryName={currentCategory}
-					products={category.products}
-					cartItems={cartItems}
-				/>
-			) : null
-		);
-
 		return (
 			<CurrencyContext.Provider value={this.state.currentCurrency}>
 				<NavBar
@@ -167,18 +159,20 @@ class App extends Component {
 							handleCartGallery={this.handleCartGallery}
 						/>
 					</Route>
-					<Route path="/">{listingPage}</Route>
+					<Route path="/">
+						{serverData.categories.map((category) =>
+							currentCategory === category.name ? (
+								<CategoryListing
+									key={category.name}
+									categoryName={currentCategory}
+									products={category.products}
+									cartItems={cartItems}
+								/>
+							) : null
+						)}
+					</Route>
 				</Switch>
 			</CurrencyContext.Provider>
-
-			/* {data.categories.map((category) =>
-					currentCategory === category.name ? (
-						<CategoryListing
-							categoryName={currentCategory}
-							products={category.products}
-						/>
-					) : null
-				)} */
 		);
 	}
 }
