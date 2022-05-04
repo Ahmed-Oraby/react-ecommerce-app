@@ -18,11 +18,11 @@
 }
 
 .currency__menu {
-	z-index: 2;
+	z-index: 1;
 	background-color: white;
 	position: absolute;
-	top: 40px;
-	left: -30px;
+	top: 5px;
+	left: -20px;
 	width: 120px;
 }
 

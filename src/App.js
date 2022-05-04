@@ -46,6 +46,7 @@ class App extends Component {
 
 	handleCurrency = (currencyLabel) => {
 		let currencyType = currency.filter((item) => item.label === currencyLabel);
+		localStorage.setItem("ecommerceApp_currency", JSON.stringify(currencyType[0]));
 		this.setState({ currentCurrency: currencyType[0] });
 	};
 
@@ -89,12 +90,14 @@ class App extends Component {
 			cartItems.unshift({ product, attributes, count: 1 }, ...productWithDiffAttr);
 
 		console.log("cart items:", cartItems);
+		localStorage.setItem("ecommerceApp_cartItems", JSON.stringify(cartItems));
 		this.setState({ cartItems, attributesAlert: null });
 	};
 
 	handleCartIncrement = (index) => {
 		let cartItems = [...this.state.cartItems];
 		cartItems[index].count++;
+		localStorage.setItem("ecommerceApp_cartItems", JSON.stringify(cartItems));
 		this.setState({ cartItems });
 	};
 
@@ -102,6 +105,7 @@ class App extends Component {
 		let cartItems = [...this.state.cartItems];
 		if (cartItems[index].count > 1) cartItems[index].count--;
 		else cartItems.splice(index, 1);
+		localStorage.setItem("ecommerceApp_cartItems", JSON.stringify(cartItems));
 		this.setState({ cartItems });
 	};
 
@@ -123,6 +127,10 @@ class App extends Component {
 
 	componentDidMount() {
 		this.requestServerData();
+		let cartItems = JSON.parse(localStorage.getItem("ecommerceApp_cartItems"));
+		let currency = JSON.parse(localStorage.getItem("ecommerceApp_currency"));
+		if (cartItems) this.setState({ cartItems });
+		if (currency) this.setState({ currentCurrency: currency });
 	}
 
 	render() {

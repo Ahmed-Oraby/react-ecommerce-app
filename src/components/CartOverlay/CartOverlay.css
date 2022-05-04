@@ -1,10 +1,11 @@
 .cart-overlay {
-	margin-top: 0.5rem;
+	position: relative;
 }
 
 .cart-overlay__icon {
 	position: relative;
 	cursor: pointer;
+	margin-top: 0.5rem;
 }
 
 .cart-overlay__qty {
@@ -24,27 +25,16 @@
 	font-size: 1.4rem;
 }
 
-.modal-bg {
-	position: fixed;
-	top: 86px;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(57, 55, 72, 0.22);
-	z-index: 1;
-	overflow: auto;
-}
-
 /* hide scroll bar in cart overlay */
-.cart-overlay__modal::-webkit-scrollbar {
+.cart-overlay__menu::-webkit-scrollbar {
 	display: none;
 }
 
-.cart-overlay__modal {
+.cart-overlay__menu {
 	width: 400px;
 	position: absolute;
-	top: 0px;
-	right: 70px;
+	top: 10px;
+	right: 0px;
 	background-color: white;
 	padding: 3.2rem 1.6rem;
 	overflow: auto;
@@ -52,6 +42,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	z-index: 1;
 }
 
 .cart-overlay__title {

@@ -1,5 +1,5 @@
 .cart {
-	margin: 18rem 10rem;
+	margin: 8rem 10rem;
 }
 
 .cart h2 {
@@ -14,7 +14,7 @@
 	align-items: center;
 	justify-content: space-between;
 	border-top: 2px solid #e5e5e5;
-	padding: 2rem 0;
+	padding: 2.4rem 0 3.2rem;
 	width: 90%;
 }
 
@@ -89,4 +89,8 @@
 	font-weight: 500;
 	text-align: center;
 	margin-bottom: 4rem;
+}
+
+.cart-empty a {
+	color: #5ece7b;
 }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import ProductAttributes from "../ProductAttributes/ProductAttributes";
 import "./Cart.css";
 import plus from "../../icons/plus-square.svg";
@@ -94,7 +95,11 @@ class Cart extends Component {
 						</div>
 					))
 				) : (
-					<p className="cart-empty">Your cart is empty!</p>
+					<p className="cart-empty">
+						Your cart is empty!
+						<br />
+						<Link to="/">Keep Shopping?</Link>
+					</p>
 				)}
 				{cartItems.length ? (
 					<div className="cart-total">

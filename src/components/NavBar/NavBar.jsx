@@ -26,7 +26,7 @@ class NavBar extends Component {
 					))}
 				</ul>
 				<div className="navbar__logo">
-					<Link to="/">
+					<Link to="/" onClick={() => handleCategory("all")}>
 						<img src={logo} alt="" />
 					</Link>
 				</div>
