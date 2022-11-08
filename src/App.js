@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
-import NavBar from "./components/NavBar/NavBar";
-import CategoryListing from "./components/CategoryListing/CategoryListing";
-import ProductDescription from "./components/ProductDescription/ProductDescription";
-import Cart from "./components/Cart/Cart";
-import CartOverlay from "./components/CartOverlay/CartOverlay";
-import CurrencySelector from "./components/CurrencySelector/CurrencySelector";
-import { CurrencyContext, currency } from "./currency-context";
+import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import NavBar from './components/NavBar/NavBar';
+import CategoryListing from './components/CategoryListing/CategoryListing';
+import ProductDescription from './components/ProductDescription/ProductDescription';
+import Cart from './components/Cart/Cart';
+import CartOverlay from './components/CartOverlay/CartOverlay';
+import CurrencySelector from './components/CurrencySelector/CurrencySelector';
+import { CurrencyContext, currency } from './currency-context';
 
 class App extends Component {
 	state = {
 		serverData: null,
-		currentCategory: "all",
+		currentCategory: 'all',
 		currentCurrency: currency[0], //set intial currency to USD
 		cartItems: [], //an array for holding all the items in cart
 		attributesAlert: null, //a flag for setting an alert if attributes are not selected
@@ -19,7 +19,7 @@ class App extends Component {
 
 	requestServerData() {
 		fetch(
-			`http://localhost:4000/graphql?query={
+			`https://graphql-endpoint.onrender.com/graphql?query={
 				categories{
 					name,
 					products{
@@ -46,7 +46,7 @@ class App extends Component {
 
 	handleCurrency = (currencyLabel) => {
 		let currencyType = currency.filter((item) => item.label === currencyLabel);
-		localStorage.setItem("ecommerceApp_currency", JSON.stringify(currencyType[0]));
+		localStorage.setItem('ecommerceApp_currency', JSON.stringify(currencyType[0]));
 		this.setState({ currentCurrency: currencyType[0] });
 	};
 
@@ -89,15 +89,15 @@ class App extends Component {
 		} else if (productWithDiffAttr.length)
 			cartItems.unshift({ product, attributes, count: 1 }, ...productWithDiffAttr);
 
-		console.log("cart items:", cartItems);
-		localStorage.setItem("ecommerceApp_cartItems", JSON.stringify(cartItems));
+		console.log('cart items:', cartItems);
+		localStorage.setItem('ecommerceApp_cartItems', JSON.stringify(cartItems));
 		this.setState({ cartItems, attributesAlert: null });
 	};
 
 	handleCartIncrement = (index) => {
 		let cartItems = [...this.state.cartItems];
 		cartItems[index].count++;
-		localStorage.setItem("ecommerceApp_cartItems", JSON.stringify(cartItems));
+		localStorage.setItem('ecommerceApp_cartItems', JSON.stringify(cartItems));
 		this.setState({ cartItems });
 	};
 
@@ -105,7 +105,7 @@ class App extends Component {
 		let cartItems = [...this.state.cartItems];
 		if (cartItems[index].count > 1) cartItems[index].count--;
 		else cartItems.splice(index, 1);
-		localStorage.setItem("ecommerceApp_cartItems", JSON.stringify(cartItems));
+		localStorage.setItem('ecommerceApp_cartItems', JSON.stringify(cartItems));
 		this.setState({ cartItems });
 	};
 
@@ -127,8 +127,8 @@ class App extends Component {
 
 	componentDidMount() {
 		this.requestServerData();
-		let cartItems = JSON.parse(localStorage.getItem("ecommerceApp_cartItems"));
-		let currency = JSON.parse(localStorage.getItem("ecommerceApp_currency"));
+		let cartItems = JSON.parse(localStorage.getItem('ecommerceApp_cartItems'));
+		let currency = JSON.parse(localStorage.getItem('ecommerceApp_currency'));
 		if (cartItems) this.setState({ cartItems });
 		if (currency) this.setState({ currentCurrency: currency });
 	}

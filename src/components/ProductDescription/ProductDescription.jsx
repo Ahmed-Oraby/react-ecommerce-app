@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import ProductAttributes from "../ProductAttributes/ProductAttributes";
-import "./ProductDescription.css";
-import { CurrencyContext } from "../../currency-context";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import ProductAttributes from '../ProductAttributes/ProductAttributes';
+import './ProductDescription.css';
+import { CurrencyContext } from '../../currency-context';
 
 class ProductDescription extends Component {
 	state = {
 		serverData: null,
-		currentImage: "",
+		currentImage: '',
 		selectedAttributes: [],
 	};
 
@@ -15,7 +15,7 @@ class ProductDescription extends Component {
 
 	requestServerData() {
 		fetch(
-			`http://localhost:4000/graphql?query={
+			`https://graphql-endpoint.onrender.com/graphql?query={
 				product(id:"${this.props.match.params.productId}"){
 					id,
 					name,
@@ -95,7 +95,7 @@ class ProductDescription extends Component {
 					))}
 				</div>
 
-				<div className={serverData.product.inStock ? "" : "out-stock"}>
+				<div className={serverData.product.inStock ? '' : 'out-stock'}>
 					<img className="main-image" src={currentImage} alt="" />
 				</div>
 
@@ -119,7 +119,7 @@ class ProductDescription extends Component {
 					<button
 						disabled={!serverData.product.inStock}
 						onClick={() => handleCartAdd(serverData.product, selectedAttributes)}
-						className={serverData.product.inStock ? "btn btn--green" : "btn disabled"}
+						className={serverData.product.inStock ? 'btn btn--green' : 'btn disabled'}
 					>
 						Add To Cart
 					</button>
