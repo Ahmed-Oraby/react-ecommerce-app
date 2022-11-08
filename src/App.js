@@ -8,6 +8,8 @@ import CartOverlay from './components/CartOverlay/CartOverlay';
 import CurrencySelector from './components/CurrencySelector/CurrencySelector';
 import { CurrencyContext, currency } from './currency-context';
 
+import Hourglass from './icons/Hourglass.gif';
+
 class App extends Component {
 	state = {
 		serverData: null,
@@ -136,7 +138,12 @@ class App extends Component {
 	render() {
 		const { serverData, currentCategory, cartItems, attributesAlert } = this.state;
 
-		if (serverData === null) return null;
+		if (serverData === null)
+			return (
+				<div className="loader">
+					<img src={Hourglass} alt="" />
+				</div>
+			);
 
 		return (
 			<CurrencyContext.Provider value={this.state.currentCurrency}>
